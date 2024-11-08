@@ -11,9 +11,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Configure Entity Framework and SQL Server
+// Get connection string from environment variable
+var connectionString = Environment.GetEnvironmentVariable("AUTOFLEET_STRING");
+
+// Check if the connection string is available
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); // Fallback to appsettings.json
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        throw new InvalidOperationException("Connection string is not set in environment variable or appsettings.json.");
+    }
+}
+
+// Configure Entity Framework and SQL Server with environment variable
 builder.Services.AddDbContext<AutoFleetDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
 
 // Add CORS policy
 builder.Services.AddCors(options =>
