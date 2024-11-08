@@ -16,6 +16,7 @@ namespace autofleetapi.Controllers
             _context = context;
         }
 
+
         [HttpPost("login")]
         public IActionResult Login([FromBody] User user)
         {
