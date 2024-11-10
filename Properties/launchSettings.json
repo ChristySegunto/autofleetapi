@@ -5,7 +5,8 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AUTOFLEET_STRING": "Server=tcp:auto-fleet.database.windows.net,1433;Initial Catalog=AutoFleet;Persist Security Info=False;User ID=autofleetadmin;Password=Autofleet123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=60;"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5127"
@@ -16,7 +17,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "AUTOFLEET_STRING": "Server=tcp:auto-fleet.database.windows.net,1433;Initial Catalog=AutoFleet;Persist Security Info=False;User ID=autofleetadmin;Password=Autofleet123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+        "AUTOFLEET_STRING": "Server=tcp:auto-fleet.database.windows.net,1433;Initial Catalog=AutoFleet;Persist Security Info=False;User ID=autofleetadmin;Password=Autofleet123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=60;"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7192;http://localhost:5127"
