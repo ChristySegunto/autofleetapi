@@ -14,7 +14,7 @@ namespace autofleetapi.Controllers
 
         public UsersController(AutoFleetDbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
 
@@ -44,29 +44,42 @@ namespace autofleetapi.Controllers
         [HttpGet("get-admin-details")]
         public async Task<IActionResult> GetLoggedInAdmin([FromQuery] int userId)
         {
-            if (userId <= 0) // Check if the userId is valid
+            try
             {
-                return BadRequest("Invalid user ID.");
+
+
+                if (userId <= 0) // Check if the userId is valid
+                {
+                    return BadRequest("Invalid user ID.");
+                }
+
+                // Directly query the Admin table based on user_id
+                var admin = await _context.Admins
+                    .Include(a => a.User)
+                    .FirstOrDefaultAsync(a => a.user_id == userId);
+
+                if (admin == null || admin.User == null)
+                {
+                    return NotFound("Admin or associated user not found.");
+                }
+
+                return Ok(new
+                {
+                    AdminId = admin.user_id,
+                    FirstName = admin.admin_fname,
+                    LastName = admin.admin_lname,
+                    Email = admin.User.Email,
+                    Role = admin.User.Role
+                });
             }
-
-            // Directly query the Admin table based on user_id
-            var admin = await _context.Admins
-                .Include(a => a.User) // Include related User data
-                .FirstOrDefaultAsync(a => a.user_id == userId); // Filter by user_id
-
-            if (admin == null)
+            catch (Exception ex)
             {
-                return NotFound("Admin not found.");
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "An error occurred while processing your request.");
             }
-
-            return Ok(new
-            {
-                AdminId = admin.user_id,
-                FirstName = admin.admin_fname,
-                LastName = admin.admin_lname,
-                Email = admin.User.Email, // assuming you want to include the User's email as well
-                Role = admin.User.Role // assuming the User has a role property
-            });
         }
+
+
+
     }
 }
