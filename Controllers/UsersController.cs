@@ -47,7 +47,7 @@ namespace autofleetapi.Controllers
             try
             {
 
-            
+
                 if (userId <= 0) // Check if the userId is valid
                 {
                     return BadRequest("Invalid user ID.");
@@ -68,8 +68,8 @@ namespace autofleetapi.Controllers
                     AdminId = admin.user_id,
                     FirstName = admin.admin_fname,
                     LastName = admin.admin_lname,
-                    Email = admin.User.Email, 
-                    Role = admin.User.Role 
+                    Email = admin.User.Email,
+                    Role = admin.User.Role
                 });
             }
             catch (Exception ex)
